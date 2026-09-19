@@ -1,3 +1,7 @@
+"use client";
+
+import { useSyncExternalStore, useCallback } from "react";
+
 export type Medicine = {
   id: string;
   name: string;
@@ -123,3 +127,71 @@ export function getMedicineStatus(medicines: Medicine[]) {
   return { nextMed, missedMeds };
 }
 
+function subscribeMedicines(callback: () => void) {
+  window.addEventListener("saathi-medicines-change", callback);
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener("saathi-medicines-change", callback);
+    window.removeEventListener("storage", callback);
+  };
+}
+
+let cachedMedsRaw = "";
+let cachedMeds: Medicine[] = DEFAULT_MEDICINES;
+
+function getMedicinesSnapshot(): Medicine[] {
+  if (typeof window === "undefined") return DEFAULT_MEDICINES;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY) || "";
+    if (raw !== cachedMedsRaw) {
+      cachedMedsRaw = raw;
+      cachedMeds = raw ? (JSON.parse(raw) as Medicine[]) : DEFAULT_MEDICINES;
+    }
+    return cachedMeds;
+  } catch {
+    return DEFAULT_MEDICINES;
+  }
+}
+
+function getMedicinesServerSnapshot(): Medicine[] {
+  return DEFAULT_MEDICINES;
+}
+
+export function useMedicines() {
+  const medicines = useSyncExternalStore(
+    subscribeMedicines,
+    getMedicinesSnapshot,
+    getMedicinesServerSnapshot,
+  );
+
+  const addMedicine = useCallback((med: Omit<Medicine, "id">) => {
+    const newMed: Medicine = {
+      ...med,
+      id: `med-${Date.now()}`,
+    };
+    const updated = [...loadMedicines(), newMed].sort((a, b) => a.time.localeCompare(b.time));
+    saveMedicines(updated);
+    return newMed;
+  }, []);
+
+  const removeMedicine = useCallback((id: string) => {
+    const updated = loadMedicines().filter((m) => m.id !== id);
+    saveMedicines(updated);
+  }, []);
+
+  const toggleMedicine = useCallback((id: string) => {
+    toggleMedicineTaken(id);
+  }, []);
+
+  const resetDefaults = useCallback(() => {
+    saveMedicines(DEFAULT_MEDICINES);
+  }, []);
+
+  return {
+    medicines,
+    addMedicine,
+    removeMedicine,
+    toggleMedicineTaken: toggleMedicine,
+    resetDefaults,
+  };
+}

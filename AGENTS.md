@@ -14,11 +14,12 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - [x] P2 /api/ai + schemas + rate limit + fallback
 - [x] P3 Scam Shield
 - [x] P4 Explain It
-- [ ] P5 Today + Medicines + Family
+- [x] P5 Today + Medicines + Family
 - [ ] P6 A11y + voice polish
 - [ ] P7 Tests
 - [ ] P8 Security review + README + final deploy
-Last completed: P4 Explain It. Next: P5 Today + Medicines + Family
+Last completed: P5 Today + Medicines + Family. Next: P6 A11y + voice polish
+
 
 
 

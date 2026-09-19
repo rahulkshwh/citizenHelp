@@ -25,11 +25,12 @@ security, efficiency, testing, accessibility, problem-statement alignment.
 - [x] P2 /api/ai + schemas + rate limit + fallback
 - [x] P3 Scam Shield
 - [x] P4 Explain It
-- [ ] P5 Today + Medicines + Family
+- [x] P5 Today + Medicines + Family
 - [ ] P6 A11y + voice polish
 - [ ] P7 Tests
 - [ ] P8 Security review + README + final deploy
-Last completed: P4 Explain It. Known issues: none. Next: P5 Today + Medicines + Family
+Last completed: P5 Today + Medicines + Family. Known issues: none. Next: P6 A11y + voice polish
+
 
 
 
