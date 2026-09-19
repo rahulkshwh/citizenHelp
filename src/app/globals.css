@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #18222c;
+  --surface: #f1f5f9;
+  --border: #54606d;
+  --action: #124a7a;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+button,
+a { font: inherit; }
+
+.app-shell { background: var(--background); color: var(--foreground); display: flex; flex-direction: column; min-height: 100vh; }
+.text-large { font-size: 1.2em; }
+.high-contrast { --background: #000; --foreground: #fff; --surface: #000; --border: #fff; --action: #ffec4f; }
+.site-header, main, footer { margin: 0 auto; max-width: 75rem; padding: 1rem; width: calc(100% - 2rem); }
+.site-header { border-bottom: 2px solid var(--border); }
+.site-title { font-size: 1.5em; font-weight: 700; }
+.site-nav, .display-controls { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+.nav-button, .setting-button { align-items: center; background: var(--surface); border: 2px solid var(--border); border-radius: 0.4rem; color: var(--foreground); display: inline-flex; justify-content: center; min-height: 48px; padding: 0.5rem 0.9rem; text-decoration: none; }
+.nav-button:hover, .setting-button:hover { background: var(--action); color: var(--background); }
+.high-contrast .nav-button:hover, .high-contrast .setting-button:hover { color: #000; }
+main { flex: 1; }
+footer { border-top: 2px solid var(--border); }
+.skip-link { background: var(--action); color: var(--background); left: 1rem; padding: 0.6rem 0.9rem; position: fixed; top: -5rem; z-index: 1; }
+.skip-link:focus { top: 1rem; }
+:focus-visible { outline: 3px solid var(--action); outline-offset: 3px; }
+.sr-only { clip: rect(0, 0, 0, 0); height: 1px; margin: -1px; overflow: hidden; position: absolute; width: 1px; }
