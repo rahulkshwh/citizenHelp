@@ -1,12 +1,12 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
-  DEFAULT_MEDICINES,
   formatTimeDisplay,
   getMedicineStatus,
   isMedicineTakenToday,
   getTodayDateString,
   type Medicine,
 } from "./medicines";
+
 
 describe("medicines utility", () => {
   it("formats times to 12-hour AM/PM format correctly", () => {
@@ -40,7 +40,6 @@ describe("medicines utility", () => {
   });
 
   it("identifies next medicine and missed medicine", () => {
-    const today = getTodayDateString();
     const meds: Medicine[] = [
       {
         id: "1",
@@ -60,8 +59,8 @@ describe("medicines utility", () => {
 
     const { nextMed, missedMeds } = getMedicineStatus(meds);
     expect(nextMed).toBeDefined();
-    // At least one med is pending
     expect(nextMed?.name).toBeTruthy();
+    expect(Array.isArray(missedMeds)).toBe(true);
   });
 });
 
