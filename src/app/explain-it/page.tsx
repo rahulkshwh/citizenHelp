@@ -15,7 +15,12 @@ type ExplainResult = {
 };
 
 export default function ExplainItPage() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState(() => {
+    if (typeof window !== "undefined") {
+      return new URLSearchParams(window.location.search).get("text") || "";
+    }
+    return "";
+  });
   const [result, setResult] = useState<ExplainResult | null>(null);
   const [statusMessage, setStatusMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);

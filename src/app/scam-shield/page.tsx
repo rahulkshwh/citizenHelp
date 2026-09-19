@@ -47,7 +47,12 @@ function localResult(verdict: Verdict, signals: string[]): ScamResult {
 }
 
 export default function ScamShieldPage() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState(() => {
+    if (typeof window !== "undefined") {
+      return new URLSearchParams(window.location.search).get("text") || "";
+    }
+    return "";
+  });
   const [result, setResult] = useState<ScamResult | null>(null);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);

@@ -6,6 +6,7 @@ type VoiceInputProps = {
   onTranscript: (text: string) => void;
   className?: string;
   disabled?: boolean;
+  label?: string;
 };
 
 function subscribeNoop() {
@@ -20,13 +21,30 @@ function getServerFalse(): boolean {
   return false;
 }
 
-export default function VoiceInput({ onTranscript, className = "", disabled = false }: VoiceInputProps) {
+export default function VoiceInput({
+  onTranscript,
+  className = "",
+  disabled = false,
+  label = "Dictate",
+}: VoiceInputProps) {
   const isSupported = useSyncExternalStore(subscribeNoop, checkSpeechRecognitionSupported, getServerFalse);
   const [isListening, setIsListening] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState("");
 
   if (!isSupported) {
-    return null; // Gracefully hidden if browser does not support SpeechRecognition
+    return (
+      <div className="voice-input-container">
+        <button
+          type="button"
+          className={`setting-button voice-input-btn ${className}`}
+          disabled
+          title="Voice input works with Google Chrome, Microsoft Edge, or Apple Safari with microphone permission."
+          aria-label="Voice input not supported in this browser"
+        >
+          <span aria-hidden="true">🎙️</span> {label} (Needs Chrome)
+        </button>
+      </div>
+    );
   }
 
   function toggleListening() {
@@ -82,11 +100,11 @@ export default function VoiceInput({ onTranscript, className = "", disabled = fa
         className={`setting-button voice-input-btn ${className}`}
         onClick={toggleListening}
         disabled={disabled}
-        aria-label={isListening ? "Stop listening to microphone" : "Dictate using microphone"}
+        aria-label={isListening ? "Stop listening to microphone" : `${label} using microphone`}
         aria-pressed={isListening}
       >
         <span aria-hidden="true">{isListening ? "⏹️" : "🎙️"}</span>{" "}
-        {isListening ? "Listening…" : "Dictate"}
+        {isListening ? "Listening…" : label}
       </button>
       {voiceStatus && (
         <span className="sr-only" aria-live="polite">
