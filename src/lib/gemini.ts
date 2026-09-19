@@ -21,9 +21,10 @@ const responseSchemas = {
       asksOfMe: { type: Type.STRING },
       deadline: { type: Type.STRING },
       safeNextStep: { type: Type.STRING },
+      questionsToAsk: { type: Type.ARRAY, items: { type: Type.STRING } },
       trustedPersonNote: { type: Type.STRING },
     },
-    required: ["summary", "asksOfMe", "deadline", "safeNextStep", "trustedPersonNote"],
+    required: ["summary", "asksOfMe", "deadline", "safeNextStep", "questionsToAsk", "trustedPersonNote"],
   },
   family: {
     type: Type.OBJECT,
@@ -37,7 +38,7 @@ const responseSchemas = {
 
 const systemPrompts = {
   scam: "Assess scam risk. Use plain language for an older adult. Never ask for OTPs, PINs, passwords, or bank details. Give cautious next steps, not financial advice.",
-  explain: "Explain the document in plain language for an older adult. Do not give final medical, legal, or financial advice; recommend a trusted person or qualified professional when relevant.",
+  explain: "Explain the document in plain language for an older adult. Provide summary, what they want from me, deadline, safest next step, exactly 3 practical questions to ask, and a disclaimer note. Do not give final medical, legal, or financial advice; recommend a trusted person or qualified professional when relevant.",
   family: "Draft a short, kind message in plain language for an older adult. Never ask for OTPs, PINs, passwords, or bank details.",
 } as const;
 

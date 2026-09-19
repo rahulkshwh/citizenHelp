@@ -16,6 +16,11 @@ const fallbacks: Record<AiMode, AiResponse> = {
     asksOfMe: "Do not sign, pay, or share personal details until you understand it.",
     deadline: "Please check the original document for any deadline.",
     safeNextStep: "Ask a trusted person or the organisation that sent it to explain it using an official contact method.",
+    questionsToAsk: [
+      "Can you explain what this letter or bill means in simple words?",
+      "Is there any payment or action needed from me, and by when?",
+      "Can we verify this together using their official phone number?",
+    ],
     trustedPersonNote: "For medical, legal, or financial matters, speak with a qualified professional.",
   },
   family: {

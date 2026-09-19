@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { generateIcsContent } from "./calendar";
+import { generateIcsContent, parseDeadlineToDate } from "./calendar";
 
 describe("generateIcsContent", () => {
   it("creates valid iCalendar structure", () => {
@@ -18,5 +18,11 @@ describe("generateIcsContent", () => {
     expect(ics).toContain("END:VEVENT");
     expect(ics).toContain("END:VCALENDAR");
   });
-});
 
+  it("parses valid deadline dates correctly", () => {
+    const futureDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000);
+    const dateStr = futureDate.toISOString();
+    const parsed = parseDeadlineToDate(dateStr);
+    expect(parsed.getTime()).toBeGreaterThan(Date.now());
+  });
+});

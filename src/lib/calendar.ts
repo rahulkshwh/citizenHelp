@@ -1,3 +1,22 @@
+export function parseDeadlineToDate(deadlineStr: string): Date {
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  if (!deadlineStr || typeof deadlineStr !== "string") return tomorrow;
+
+  const parsed = Date.parse(deadlineStr);
+  if (!isNaN(parsed) && parsed > Date.now()) {
+    return new Date(parsed);
+  }
+
+  // Try extracting date pattern like 2026-10-15 or 15/10/2026 or 15-10-2026
+  const dateMatch = deadlineStr.match(/(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+  if (dateMatch) {
+    const d = new Date(parseInt(dateMatch[1], 10), parseInt(dateMatch[2], 10) - 1, parseInt(dateMatch[3], 10));
+    if (!isNaN(d.getTime())) return d;
+  }
+
+  return tomorrow;
+}
+
 export function generateIcsContent({
   title,
   description,
@@ -36,6 +55,7 @@ export function generateIcsContent({
 }
 
 export function downloadIcsFile(filename: string, content: string): void {
+  if (typeof window === "undefined") return;
   const blob = new Blob([content], { type: "text/calendar;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -46,4 +66,3 @@ export function downloadIcsFile(filename: string, content: string): void {
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
-

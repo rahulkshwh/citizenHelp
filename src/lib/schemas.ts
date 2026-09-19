@@ -21,6 +21,7 @@ const explainResponseSchema = z.object({
   asksOfMe: z.string(),
   deadline: z.string(),
   safeNextStep: z.string(),
+  questionsToAsk: z.array(z.string()).default([]),
   trustedPersonNote: z.string(),
 });
 

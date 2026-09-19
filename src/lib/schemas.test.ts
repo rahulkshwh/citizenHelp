@@ -57,6 +57,7 @@ describe("parseAiResponse", () => {
       asksOfMe: "Pay the bill",
       deadline: "Due on 15th Oct",
       safeNextStep: "Pay through official website",
+      questionsToAsk: ["Can I pay in instalments?", "Who can I contact?", "Is there a discount?"],
       trustedPersonNote: "Ask trusted family member if in doubt",
     };
     const parsed = parseAiResponse("explain", raw);
