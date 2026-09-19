@@ -26,10 +26,11 @@ security, efficiency, testing, accessibility, problem-statement alignment.
 - [x] P3 Scam Shield
 - [x] P4 Explain It
 - [x] P5 Today + Medicines + Family
-- [ ] P6 A11y + voice polish
+- [x] P6 A11y + voice polish
 - [ ] P7 Tests
 - [ ] P8 Security review + README + final deploy
-Last completed: P5 Today + Medicines + Family. Known issues: none. Next: P6 A11y + voice polish
+Last completed: P6 A11y + voice polish. Known issues: none. Next: P7 Tests
+
 
 
 

@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { generateIcsContent, downloadIcsFile, parseDeadlineToDate } from "@/lib/calendar";
+import VoiceInput from "@/components/voice-input";
+import ReadAloud from "@/components/read-aloud";
 
 type ExplainResult = {
   summary: string;
@@ -85,6 +87,10 @@ export default function ExplainItPage() {
           "Can we verify this together using their official phone number?",
         ];
 
+  const speechText = result
+    ? `Summary: ${result.summary}. What they want from you: ${result.asksOfMe}. Deadline: ${result.deadline}. Safest next step: ${result.safeNextStep}. Questions to ask: ${questions.slice(0, 3).join(". ")}`
+    : "";
+
   return (
     <section className="explain-it-page">
       <h1>Explain It</h1>
@@ -93,7 +99,16 @@ export default function ExplainItPage() {
       </p>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="explain-text">Document text</label>
+        <div className="form-header">
+          <label htmlFor="explain-text">Document text</label>
+          <VoiceInput
+            onTranscript={(transcript) => {
+              setText((prev) => (prev ? `${prev} ${transcript}` : transcript).slice(0, 2000));
+              setStatusMessage("Voice input added to text box.");
+            }}
+            disabled={isLoading}
+          />
+        </div>
         <textarea
           id="explain-text"
           maxLength={2000}
@@ -131,7 +146,10 @@ export default function ExplainItPage() {
       {result && (
         <article className="result-card explain-result" aria-labelledby="explain-summary-heading">
           <div>
-            <h2 id="explain-summary-heading">Plain Summary</h2>
+            <div className="result-header">
+              <h2 id="explain-summary-heading">Plain Summary</h2>
+              <ReadAloud text={speechText} label="Read explanation aloud" />
+            </div>
             <p className="summary-text">{result.summary}</p>
 
             <h3>What they want from me</h3>

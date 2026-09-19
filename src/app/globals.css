@@ -127,6 +127,11 @@ footer { border-top: 2px solid var(--border); }
 .high-contrast .whatsapp-btn, .high-contrast .whatsapp-send-button { background: #4ade80; color: #000 !important; border-color: #4ade80; }
 .call-btn { background: var(--action); color: var(--background) !important; }
 
+.voice-input-container { display: inline-flex; align-items: center; }
+.voice-input-btn, .read-aloud-btn { min-height: 48px; min-width: 48px; font-weight: 600; }
+.voice-input-btn[aria-pressed="true"], .read-aloud-btn[aria-pressed="true"] { background: #b91c1c; border-color: #b91c1c; color: #fff; }
+.high-contrast .voice-input-btn[aria-pressed="true"], .high-contrast .read-aloud-btn[aria-pressed="true"] { background: #ff4d4d; color: #000; border-color: #ff4d4d; }
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
@@ -135,6 +140,7 @@ footer { border-top: 2px solid var(--border); }
     scroll-behavior: auto !important;
   }
 }
+
 
 
 

@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { HIGH_RISK_SCORE, LOW_RISK_SCORE, scoreScamText } from "@/lib/heuristics";
+import VoiceInput from "@/components/voice-input";
+import ReadAloud from "@/components/read-aloud";
 
 type Verdict = "Safe" | "Suspicious" | "Dangerous";
 type ScamResult = {
@@ -61,7 +63,6 @@ export default function ScamShieldPage() {
 
     const heuristic = scoreScamText(trimmedText);
 
-    // Rule-first evaluation:
     if (heuristic.score < LOW_RISK_SCORE) {
       setResult(localResult("Safe", heuristic.signals));
       setMessage("Check complete.");
@@ -73,7 +74,6 @@ export default function ScamShieldPage() {
       return;
     }
 
-    // Between low and high: call LLM /api/ai
     setIsLoading(true);
     setResult(null);
     setMessage("Checking for scam signs. Please wait.");
@@ -100,13 +100,26 @@ export default function ScamShieldPage() {
     }
   }
 
+  const speechText = result
+    ? `Verdict: ${result.verdict}. Why: ${result.why}. What to do now: ${result.whatToDo.join(". ")}. ${result.trustedPersonNote}`
+    : "";
+
   return (
     <section className="scam-shield">
       <h1>Scam Shield</h1>
       <p>Paste a message or describe a call. We will look for common scam warning signs.</p>
 
       <form onSubmit={checkMessage}>
-        <label htmlFor="scam-text">Message or call description</label>
+        <div className="form-header">
+          <label htmlFor="scam-text">Message or call description</label>
+          <VoiceInput
+            onTranscript={(transcript) => {
+              setText((prev) => (prev ? `${prev} ${transcript}` : transcript).slice(0, 2000));
+              setMessage("Voice input added to text box.");
+            }}
+            disabled={isLoading}
+          />
+        </div>
         <textarea
           id="scam-text"
           maxLength={2000}
@@ -150,7 +163,10 @@ export default function ScamShieldPage() {
             {verdictIcon[result.verdict]}
           </div>
           <div>
-            <h2 id="verdict">{result.verdict}</h2>
+            <div className="result-header">
+              <h2 id="verdict">{result.verdict}</h2>
+              <ReadAloud text={speechText} label="Read verdict aloud" />
+            </div>
 
             <h3>Why</h3>
             <p>{result.why}</p>

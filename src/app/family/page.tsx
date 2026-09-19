@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useSyncExternalStore, FormEvent } from "react";
+import VoiceInput from "@/components/voice-input";
+import ReadAloud from "@/components/read-aloud";
 
 type Contact = {
   id: string;
@@ -159,6 +161,10 @@ export default function FamilyPage() {
     setStatusMessage("Message copied to clipboard!");
   }
 
+  const draftSpeech = draftResult
+    ? `Suggested message: ${draftResult.message}. Next step: ${draftResult.safeNextStep}`
+    : "";
+
   return (
     <section className="family-page">
       <header className="page-header">
@@ -285,7 +291,16 @@ export default function FamilyPage() {
         </p>
 
         <form onSubmit={handleDraftMessage}>
-          <label htmlFor="draft-prompt">What would you like to tell them?</label>
+          <div className="form-header">
+            <label htmlFor="draft-prompt">What would you like to tell them?</label>
+            <VoiceInput
+              onTranscript={(transcript) => {
+                setDraftPrompt((prev) => (prev ? `${prev} ${transcript}` : transcript).slice(0, 1000));
+                setStatusMessage("Voice input added to text box.");
+              }}
+              disabled={isLoading}
+            />
+          </div>
           <textarea
             id="draft-prompt"
             maxLength={1000}
@@ -308,7 +323,11 @@ export default function FamilyPage() {
         {draftResult && (
           <article className="result-card draft-result-card" aria-labelledby="draft-result-title">
             <div>
-              <h3 id="draft-result-title">Suggested Message</h3>
+              <div className="result-header">
+                <h3 id="draft-result-title">Suggested Message</h3>
+                <ReadAloud text={draftSpeech} label="Read drafted message aloud" />
+              </div>
+
               <blockquote className="draft-message-quote">
                 &ldquo;{draftResult.message}&rdquo;
               </blockquote>
