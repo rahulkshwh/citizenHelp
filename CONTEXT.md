@@ -28,8 +28,8 @@ security, efficiency, testing, accessibility, problem-statement alignment.
 - [x] P5 Today + Medicines + Family
 - [x] P6 A11y + voice polish
 - [x] P7 Tests
-- [ ] P8 Security review + README + final deploy
-Last completed: P7 Tests. Known issues: none. Next: P8 Security review + README + final deploy
+- [x] P8 Security review + README + final deploy
+Last completed: P8 Security review + README + final deploy. Known issues: none. Next: none (Complete)
 
 
 
