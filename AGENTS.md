@@ -16,9 +16,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - [x] P4 Explain It
 - [x] P5 Today + Medicines + Family
 - [x] P6 A11y + voice polish
-- [ ] P7 Tests
+- [x] P7 Tests
 - [ ] P8 Security review + README + final deploy
-Last completed: P6 A11y + voice polish. Next: P7 Tests
+Last completed: P7 Tests. Next: P8 Security review + README + final deploy
+
 
 
 

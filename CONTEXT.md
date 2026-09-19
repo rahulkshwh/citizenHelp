@@ -27,9 +27,10 @@ security, efficiency, testing, accessibility, problem-statement alignment.
 - [x] P4 Explain It
 - [x] P5 Today + Medicines + Family
 - [x] P6 A11y + voice polish
-- [ ] P7 Tests
+- [x] P7 Tests
 - [ ] P8 Security review + README + final deploy
-Last completed: P6 A11y + voice polish. Known issues: none. Next: P7 Tests
+Last completed: P7 Tests. Known issues: none. Next: P8 Security review + README + final deploy
+
 
 
 

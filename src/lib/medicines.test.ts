@@ -7,7 +7,6 @@ import {
   type Medicine,
 } from "./medicines";
 
-
 describe("medicines utility", () => {
   it("formats times to 12-hour AM/PM format correctly", () => {
     expect(formatTimeDisplay("08:00")).toBe("8:00 AM");
@@ -39,28 +38,61 @@ describe("medicines utility", () => {
     expect(isMedicineTakenToday(med2)).toBe(false);
   });
 
-  it("identifies next medicine and missed medicine", () => {
+  it("returns next medicine when upcoming dose exists", () => {
+    const today = getTodayDateString();
     const meds: Medicine[] = [
       {
         id: "1",
         name: "Morning Med",
         dosage: "1 tab",
-        time: "06:00", // in the past
+        time: "08:00",
         instructions: "",
+        lastTakenDate: today,
       },
       {
         id: "2",
         name: "Evening Med",
         dosage: "1 tab",
-        time: "23:59", // in the future
+        time: "23:59",
         instructions: "",
       },
     ];
 
     const { nextMed, missedMeds } = getMedicineStatus(meds);
-    expect(nextMed).toBeDefined();
-    expect(nextMed?.name).toBeTruthy();
-    expect(Array.isArray(missedMeds)).toBe(true);
+    expect(nextMed?.id).toBe("2");
+    expect(missedMeds.length).toBe(0);
+  });
+
+  it("returns null nextMed when all doses are taken today", () => {
+    const today = getTodayDateString();
+    const meds: Medicine[] = [
+      {
+        id: "1",
+        name: "Morning Med",
+        dosage: "1 tab",
+        time: "08:00",
+        instructions: "",
+        lastTakenDate: today,
+      },
+    ];
+
+    const { nextMed } = getMedicineStatus(meds);
+    expect(nextMed).toBeNull();
+  });
+
+  it("flags missed doses when past scheduled time and untaken", () => {
+    const meds: Medicine[] = [
+      {
+        id: "1",
+        name: "Very Early Morning Med",
+        dosage: "1 tab",
+        time: "01:00",
+        instructions: "",
+      },
+    ];
+
+    const { missedMeds } = getMedicineStatus(meds);
+    expect(missedMeds.length).toBe(1);
+    expect(missedMeds[0].name).toBe("Very Early Morning Med");
   });
 });
-

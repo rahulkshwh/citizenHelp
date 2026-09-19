@@ -31,7 +31,7 @@ export default function TodayPage() {
       </header>
 
       {missedMeds.length > 0 && (
-        <aside className="alert-card alert-warning" role="alert" aria-live="assertive">
+        <div className="alert-card alert-warning" role="alert" aria-live="assertive">
           <div className="alert-icon" aria-hidden="true">⚠️</div>
           <div>
             <h2>Missed Medicine Reminder</h2>
@@ -51,7 +51,7 @@ export default function TodayPage() {
               </div>
             ))}
           </div>
-        </aside>
+        </div>
       )}
 
       <section className="section-card next-med-section" aria-labelledby="next-med-heading">

@@ -36,7 +36,6 @@ function getContactsSnapshot(): Contact[] {
   try {
     const raw = localStorage.getItem("saathi-contacts");
     if (!raw) {
-      localStorage.setItem("saathi-contacts", JSON.stringify(DEFAULT_CONTACTS));
       return DEFAULT_CONTACTS;
     }
     if (raw !== cachedContactsRaw) {
