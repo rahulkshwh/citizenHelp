@@ -128,7 +128,7 @@ function getVoiceAssistantAnswer(
 }
 
 export default function TodayPage() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const { medicines, toggleMedicineTaken } = useMedicines();
   const greeting = getGreeting(t);
   const scamTip = getDailyScamTip();
@@ -136,6 +136,7 @@ export default function TodayPage() {
   const { nextMed, missedMeds } = getMedicineStatus(medicines);
 
   const [inputQuery, setInputQuery] = useState("");
+  const [isLoadingAi, setIsLoadingAi] = useState(false);
   const [assistantResult, setAssistantResult] = useState<{
     text: string;
     actionHref?: string;
@@ -155,12 +156,72 @@ export default function TodayPage() {
     .filter(Boolean)
     .join(" ");
 
-  function handleQuerySubmit(text: string) {
+  async function handleQuerySubmit(text: string) {
     const trimmed = text.trim();
     if (!trimmed) return;
     setInputQuery(trimmed);
-    const result = getVoiceAssistantAnswer(trimmed, nextMed, missedMeds);
-    setAssistantResult(result);
+
+    const q = trimmed.toLowerCase();
+    if (
+      q.includes("medicine") ||
+      q.includes("pill") ||
+      q.includes("dose") ||
+      q.includes("tablet") ||
+      q.includes("दवा") ||
+      q.includes("गोली") ||
+      q.includes("pastilla")
+    ) {
+      setAssistantResult(getVoiceAssistantAnswer(trimmed, nextMed, missedMeds));
+      return;
+    }
+
+    if (
+      q.includes("family") ||
+      q.includes("daughter") ||
+      q.includes("son") ||
+      q.includes("परिवार") ||
+      q.includes("familia")
+    ) {
+      setAssistantResult(getVoiceAssistantAnswer(trimmed, nextMed, missedMeds));
+      return;
+    }
+
+    setIsLoadingAi(true);
+    setAssistantResult({
+      text: "Checking with Saathi assistant. Please wait...",
+    });
+
+    try {
+      const isScamQuery = /\b(scam|fraud|suspicious|urgent|otp|pin|lottery|prize|arrest|police|bank|धोखा|स्कैम|ओटीपी|estafa)\b/i.test(trimmed);
+      const mode = isScamQuery ? "scam" : "explain";
+
+      const res = await fetch("/api/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode, text: trimmed, lang }),
+      });
+
+      if (!res.ok) throw new Error("Could not reach assistant");
+      const data = await res.json();
+
+      if (mode === "scam") {
+        setAssistantResult({
+          text: `Verdict: ${data.verdict}. ${data.why} Safest step: ${data.whatToDo?.[0] || "Consult a family member."}`,
+          actionHref: `/scam-shield?text=${encodeURIComponent(trimmed)}`,
+          actionLabel: "Inspect in Scam Shield →",
+        });
+      } else {
+        setAssistantResult({
+          text: `${data.summary} Safest step: ${data.safeNextStep}`,
+          actionHref: `/explain-it?text=${encodeURIComponent(trimmed)}`,
+          actionLabel: "Open Details in Explain It →",
+        });
+      }
+    } catch {
+      setAssistantResult(getVoiceAssistantAnswer(trimmed, nextMed, missedMeds));
+    } finally {
+      setIsLoadingAi(false);
+    }
   }
 
   function onFormSubmit(e: FormEvent<HTMLFormElement>) {
@@ -191,6 +252,7 @@ export default function TodayPage() {
           <VoiceInput
             label={t.speakToSaathi}
             onTranscript={(transcript) => handleQuerySubmit(transcript)}
+            disabled={isLoadingAi}
           />
           <label htmlFor="home-voice-input" className="sr-only">
             Type a question for Saathi
@@ -202,9 +264,10 @@ export default function TodayPage() {
             placeholder={t.typeQuestionPlaceholder}
             value={inputQuery}
             onChange={(e) => setInputQuery(e.target.value)}
+            disabled={isLoadingAi}
           />
-          <button type="submit" className="primary-button">
-            {t.askButton}
+          <button type="submit" className="primary-button" disabled={isLoadingAi}>
+            {isLoadingAi ? "Thinking…" : t.askButton}
           </button>
         </form>
 
