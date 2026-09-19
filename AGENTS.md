@@ -11,4 +11,12 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Progress log
 
 - [x] P1 scaffold + layout + toggles
-Last completed: P1 scaffold + layout + toggles. Next: P2 /api/ai + schemas + rate limit + fallback
+- [x] P2 /api/ai + schemas + rate limit + fallback
+- [x] P3 Scam Shield
+- [x] P4 Explain It
+- [x] P5 Today + Medicines + Family
+- [x] P6 A11y + voice polish
+- [x] P7 Tests
+- [x] P8 Security review + README + final deploy
+Last completed: P8 Security review + README + final deploy. Next: none (Complete)
+

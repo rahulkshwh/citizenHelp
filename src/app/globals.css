@@ -36,3 +36,105 @@ footer { border-top: 2px solid var(--border); }
 .skip-link:focus { top: 1rem; }
 :focus-visible { outline: 3px solid var(--action); outline-offset: 3px; }
 .sr-only { clip: rect(0, 0, 0, 0); height: 1px; margin: -1px; overflow: hidden; position: absolute; width: 1px; }
+
+.scam-shield { max-width: 48rem; }
+.scam-shield label { display: block; font-weight: 700; margin-top: 1.5rem; }
+.scam-shield textarea { background: var(--background); border: 2px solid var(--border); border-radius: 0.4rem; color: var(--foreground); display: block; font: inherit; margin-top: 0.5rem; padding: 0.75rem; resize: vertical; width: 100%; }
+.character-count { margin: 0.25rem 0 1rem; }
+.primary-button { align-items: center; background: var(--action); border: 2px solid var(--action); border-radius: 0.4rem; color: var(--background); display: inline-flex; justify-content: center; min-height: 48px; padding: 0.5rem 1rem; text-decoration: none; }
+.primary-button:disabled { cursor: wait; opacity: 0.7; }
+.status-message { min-height: 1.5em; }
+.result-card { border: 3px solid var(--border); border-radius: 0.5rem; display: flex; gap: 1rem; margin-top: 1.5rem; padding: 1rem; }
+.verdict-icon { align-items: center; background: var(--surface); border: 2px solid var(--border); border-radius: 50%; display: flex; flex: 0 0 auto; font-weight: 700; height: 3rem; justify-content: center; width: 3rem; }
+.result-card h2, .result-card h3 { margin: 0 0 0.5rem; }
+.result-card h3 { margin-top: 1rem; }
+.result-card p { margin: 0; }
+.result-card ol { padding-left: 1.5rem; }
+.call-family { margin-top: 1rem; }
+
+.explain-it-page { max-width: 48rem; }
+.explain-it-page label { display: block; font-weight: 700; margin-top: 1.5rem; }
+.explain-it-page textarea { background: var(--background); border: 2px solid var(--border); border-radius: 0.4rem; color: var(--foreground); display: block; font: inherit; margin-top: 0.5rem; padding: 0.75rem; resize: vertical; width: 100%; }
+.form-header { display: flex; justify-content: space-between; align-items: flex-end; }
+.button-group { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+.result-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+.action-buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+.trusted-note { background: var(--surface); border-left: 4px solid var(--action); padding: 0.75rem 1rem; margin-top: 1rem; border-radius: 0.25rem; }
+.summary-text { font-size: 1.1em; font-weight: 500; }
+
+/* Today Page */
+.today-page { max-width: 52rem; display: flex; flex-direction: column; gap: 1.5rem; }
+.greeting-header h1 { margin: 0; font-size: 2rem; }
+.subheading { margin: 0.25rem 0 0; opacity: 0.85; }
+.alert-card { border: 3px solid #b91c1c; background: #fef2f2; color: #991b1b; border-radius: 0.5rem; padding: 1.25rem; display: flex; gap: 1rem; align-items: flex-start; }
+.high-contrast .alert-card { background: #000; border-color: #ff4d4d; color: #ff4d4d; }
+.alert-icon { font-size: 2rem; }
+.alert-card h2 { margin: 0 0 0.5rem; font-size: 1.25rem; }
+.missed-item { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.missed-item p { margin: 0; }
+.take-button { background: #b91c1c; border-color: #b91c1c; }
+.high-contrast .take-button { background: #ff4d4d; color: #000; border-color: #ff4d4d; }
+
+.section-card { background: var(--surface); border: 2px solid var(--border); border-radius: 0.5rem; padding: 1.5rem; }
+.section-card h2 { margin: 0 0 1rem; font-size: 1.35rem; }
+.next-med-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.med-info { flex: 1; min-width: 250px; }
+.med-name { font-size: 1.3rem; font-weight: 700; margin: 0 0 0.25rem; }
+.med-meta { margin: 0 0 0.5rem; opacity: 0.9; }
+.med-instructions { margin: 0; font-style: italic; }
+.big-action-button { font-size: 1.15rem; font-weight: 700; padding: 0.75rem 1.5rem; min-height: 52px; }
+.button-taken { background: #15803d !important; border-color: #15803d !important; color: #fff !important; }
+.high-contrast .button-taken { background: #4ade80 !important; color: #000 !important; border-color: #4ade80 !important; }
+.meds-link-container { margin-top: 1rem; }
+.scam-tip-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 0.5rem; }
+.scam-tip-body { margin: 0 0 1rem; }
+
+.quick-shortcuts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.shortcut-card { display: flex; align-items: center; gap: 1rem; background: var(--surface); border: 2px solid var(--border); border-radius: 0.5rem; padding: 1rem; text-decoration: none; color: var(--foreground); }
+.shortcut-card:hover { border-color: var(--action); background: var(--surface); }
+.shortcut-icon { font-size: 2rem; }
+.shortcut-card h3 { margin: 0 0 0.25rem; font-size: 1.1rem; }
+.shortcut-card p { margin: 0; font-size: 0.9em; opacity: 0.85; }
+
+/* Medicines Page */
+.medicines-page { max-width: 52rem; }
+.page-header h1 { margin: 0; font-size: 2rem; }
+.medicines-actions { display: flex; gap: 0.75rem; margin: 1.5rem 0 1rem; flex-wrap: wrap; }
+.add-medicine-form, .add-contact-form { background: var(--surface); border: 2px solid var(--border); border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem; }
+.add-medicine-form input, .add-contact-form input, select { background: var(--background); border: 2px solid var(--border); border-radius: 0.4rem; color: var(--foreground); display: block; font: inherit; margin: 0.35rem 0 1rem; padding: 0.75rem; width: 100%; box-sizing: border-box; }
+.medicines-list, .contacts-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 1rem; }
+.medicine-card, .contact-card { background: var(--surface); border: 2px solid var(--border); border-radius: 0.5rem; padding: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.card-taken { border-left: 8px solid #15803d; }
+.medicine-header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.medicine-header h2, .contact-card h3 { margin: 0; font-size: 1.25rem; }
+.medicine-time { font-weight: 700; color: var(--action); }
+.high-contrast .medicine-time { color: var(--action); }
+.medicine-dosage { margin: 0.35rem 0 0.25rem; }
+.taken-badge { margin: 0.5rem 0 0; color: #15803d; font-weight: 700; }
+.high-contrast .taken-badge { color: #4ade80; }
+.medicine-controls, .contact-actions { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.big-taken-button { min-height: 48px; min-width: 120px; }
+
+/* Family Page */
+.family-page { max-width: 52rem; display: flex; flex-direction: column; gap: 2rem; }
+.section-header-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
+.contact-meta { margin: 0.25rem 0 0; opacity: 0.85; display: flex; gap: 0.75rem; }
+.draft-section { border-top: 2px solid var(--border); padding-top: 1.5rem; }
+.draft-section textarea { background: var(--background); border: 2px solid var(--border); border-radius: 0.4rem; color: var(--foreground); display: block; font: inherit; margin-top: 0.5rem; padding: 0.75rem; resize: vertical; width: 100%; }
+.draft-message-quote { font-size: 1.2rem; font-style: italic; background: var(--surface); border-left: 4px solid var(--action); padding: 1rem; margin: 1rem 0; border-radius: 0.25rem; }
+.send-whatsapp-group { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-top: 0.75rem; }
+.whatsapp-btn, .whatsapp-send-button { background: #15803d; border-color: #15803d; color: #fff !important; }
+.high-contrast .whatsapp-btn, .high-contrast .whatsapp-send-button { background: #4ade80; color: #000 !important; border-color: #4ade80; }
+.call-btn { background: var(--action); color: var(--background) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+
