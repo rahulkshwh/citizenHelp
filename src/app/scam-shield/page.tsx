@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { HIGH_RISK_SCORE, LOW_RISK_SCORE, scoreScamText } from "@/lib/heuristics";
 import VoiceInput from "@/components/voice-input";
 import ReadAloud from "@/components/read-aloud";
+import { useLanguage } from "@/hooks/useLanguage";
 
 type Verdict = "Safe" | "Suspicious" | "Dangerous";
 type ScamResult = {
@@ -47,6 +48,7 @@ function localResult(verdict: Verdict, signals: string[]): ScamResult {
 }
 
 export default function ScamShieldPage() {
+  const { lang } = useLanguage();
   const [text, setText] = useState(() => {
     if (typeof window !== "undefined") {
       return new URLSearchParams(window.location.search).get("text") || "";
@@ -87,7 +89,7 @@ export default function ScamShieldPage() {
       const response = await fetch("/api/ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: "scam", text: trimmedText, lang: "en" }),
+        body: JSON.stringify({ mode: "scam", text: trimmedText, lang }),
       });
 
       if (!response.ok) {

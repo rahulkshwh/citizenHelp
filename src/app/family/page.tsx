@@ -3,6 +3,7 @@
 import { useState, useSyncExternalStore, FormEvent } from "react";
 import VoiceInput from "@/components/voice-input";
 import ReadAloud from "@/components/read-aloud";
+import { useLanguage } from "@/hooks/useLanguage";
 
 type Contact = {
   id: string;
@@ -64,6 +65,7 @@ type FamilyAiResult = {
 };
 
 export default function FamilyPage() {
+  const { lang } = useLanguage();
   const contacts = useSyncExternalStore(
     subscribeContacts,
     getContactsSnapshot,
@@ -136,7 +138,7 @@ export default function FamilyPage() {
       const response = await fetch("/api/ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: "family", text: trimmed, lang: "en" }),
+        body: JSON.stringify({ mode: "family", text: trimmed, lang }),
       });
 
       if (!response.ok) throw new Error("Could not draft message.");

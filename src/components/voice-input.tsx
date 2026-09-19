@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 type VoiceInputProps = {
   onTranscript: (text: string) => void;
@@ -27,6 +28,7 @@ export default function VoiceInput({
   disabled = false,
   label = "Dictate",
 }: VoiceInputProps) {
+  const { voiceLang } = useLanguage();
   const isSupported = useSyncExternalStore(subscribeNoop, checkSpeechRecognitionSupported, getServerFalse);
   const [isListening, setIsListening] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState("");
@@ -60,7 +62,7 @@ export default function VoiceInput({
       if (!SpeechRecognitionClass) return;
 
       const recognition = new SpeechRecognitionClass();
-      recognition.lang = "en-US";
+      recognition.lang = voiceLang || "en-US";
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 

@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { generateIcsContent, downloadIcsFile, parseDeadlineToDate } from "@/lib/calendar";
 import VoiceInput from "@/components/voice-input";
 import ReadAloud from "@/components/read-aloud";
+import { useLanguage } from "@/hooks/useLanguage";
 
 type ExplainResult = {
   summary: string;
@@ -15,6 +16,7 @@ type ExplainResult = {
 };
 
 export default function ExplainItPage() {
+  const { lang } = useLanguage();
   const [text, setText] = useState(() => {
     if (typeof window !== "undefined") {
       return new URLSearchParams(window.location.search).get("text") || "";
@@ -42,7 +44,7 @@ export default function ExplainItPage() {
       const response = await fetch("/api/ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: "explain", text: trimmedText, lang: "en" }),
+        body: JSON.stringify({ mode: "explain", text: trimmedText, lang }),
       });
 
       if (!response.ok) {

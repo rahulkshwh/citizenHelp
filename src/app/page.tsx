@@ -11,12 +11,13 @@ import {
 import { getDailyScamTip } from "@/lib/scam-tips";
 import ReadAloud from "@/components/read-aloud";
 import VoiceInput from "@/components/voice-input";
+import { useLanguage } from "@/hooks/useLanguage";
 
-function getGreeting(): string {
+function getGreeting(t: ReturnType<typeof useLanguage>["t"]): string {
   const hour = new Date().getHours();
-  if (hour < 12) return "Good morning! ☀️";
-  if (hour < 17) return "Good afternoon! 🌤️";
-  return "Good evening! 🌙";
+  if (hour < 12) return t.goodMorning;
+  if (hour < 17) return t.goodAfternoon;
+  return t.goodEvening;
 }
 
 function getVoiceAssistantAnswer(
@@ -31,7 +32,11 @@ function getVoiceAssistantAnswer(
     q.includes("pill") ||
     q.includes("dose") ||
     q.includes("tablet") ||
-    q.includes("medication")
+    q.includes("medication") ||
+    q.includes("दवा") ||
+    q.includes("गोली") ||
+    q.includes("pastilla") ||
+    q.includes("medicina")
   ) {
     if (missedMeds.length > 0) {
       return {
@@ -64,7 +69,11 @@ function getVoiceAssistantAnswer(
     q.includes("prize") ||
     q.includes("urgent") ||
     q.includes("arrest") ||
-    q.includes("fake")
+    q.includes("fake") ||
+    q.includes("धोखा") ||
+    q.includes("स्कैम") ||
+    q.includes("ओटीपी") ||
+    q.includes("estafa")
   ) {
     return {
       text: "Be very careful! Scammers often create urgency or ask for OTPs, PINs, or money. Never share private details. Let's inspect the message in Scam Shield.",
@@ -79,7 +88,12 @@ function getVoiceAssistantAnswer(
     q.includes("letter") ||
     q.includes("notice") ||
     q.includes("document") ||
-    q.includes("paper")
+    q.includes("paper") ||
+    q.includes("कागज़") ||
+    q.includes("पत्र") ||
+    q.includes("बिल") ||
+    q.includes("carta") ||
+    q.includes("factura")
   ) {
     return {
       text: "I can help explain confusing letters, bills, and documents in simple words with clear deadlines. Let's open Explain It.",
@@ -95,7 +109,11 @@ function getVoiceAssistantAnswer(
     q.includes("call") ||
     q.includes("phone") ||
     q.includes("whatsapp") ||
-    q.includes("doctor")
+    q.includes("doctor") ||
+    q.includes("परिवार") ||
+    q.includes("बेटा") ||
+    q.includes("बेटी") ||
+    q.includes("familia")
   ) {
     return {
       text: "You can reach your loved ones with one touch using phone or WhatsApp, or have me help write a message for them.",
@@ -110,8 +128,9 @@ function getVoiceAssistantAnswer(
 }
 
 export default function TodayPage() {
+  const { t } = useLanguage();
   const { medicines, toggleMedicineTaken } = useMedicines();
-  const greeting = getGreeting();
+  const greeting = getGreeting(t);
   const scamTip = getDailyScamTip();
 
   const { nextMed, missedMeds } = getMedicineStatus(medicines);
@@ -130,8 +149,8 @@ export default function TodayPage() {
       : "",
     nextMed
       ? `Your next scheduled medicine is ${nextMed.name}, ${nextMed.dosage}, at ${formatTimeDisplay(nextMed.time)}.`
-      : "All your medicines for today are marked as taken.",
-    `Daily scam safety tip: ${scamTip.title}. ${scamTip.tip}`,
+      : t.allMedsTaken,
+    `${t.dailyScamTip}: ${scamTip.title}. ${scamTip.tip}`,
   ]
     .filter(Boolean)
     .join(" ");
@@ -155,22 +174,22 @@ export default function TodayPage() {
         <div className="greeting-row">
           <div>
             <h1>{greeting}</h1>
-            <p className="subheading">Here is your daily check-in for peace of mind.</p>
+            <p className="subheading">{t.homeSubheading}</p>
           </div>
-          <ReadAloud text={todaySummarySpeech} label="Listen to Today's Summary" />
+          <ReadAloud text={todaySummarySpeech} label={t.listenSummary} />
         </div>
       </header>
 
       {/* Voice Assistant & Spoken Help Section */}
       <section className="section-card voice-assistant-section" aria-labelledby="voice-assistant-heading">
-        <h2 id="voice-assistant-heading">🎙️ Voice Assistant & Spoken Help</h2>
+        <h2 id="voice-assistant-heading">{t.voiceAssistantTitle}</h2>
         <p className="voice-assistant-desc">
-          Tap the microphone to speak, or type your question below. Saathi will guide you and speak the answer back.
+          {t.voiceAssistantDesc}
         </p>
 
         <form onSubmit={onFormSubmit} className="voice-controls">
           <VoiceInput
-            label="Speak to Saathi"
+            label={t.speakToSaathi}
             onTranscript={(transcript) => handleQuerySubmit(transcript)}
           />
           <label htmlFor="home-voice-input" className="sr-only">
@@ -180,44 +199,44 @@ export default function TodayPage() {
             id="home-voice-input"
             type="text"
             className="voice-assistant-input"
-            placeholder="e.g. Did I take my pill? or Check a scam text"
+            placeholder={t.typeQuestionPlaceholder}
             value={inputQuery}
             onChange={(e) => setInputQuery(e.target.value)}
           />
           <button type="submit" className="primary-button">
-            Ask
+            {t.askButton}
           </button>
         </form>
 
-        <p className="voice-suggestions-label">Try asking:</p>
+        <p className="voice-suggestions-label">{t.tryAsking}</p>
         <div className="voice-chips">
           <button
             type="button"
             className="setting-button voice-chip-btn"
             onClick={() => handleQuerySubmit("Did I take my medicine today?")}
           >
-            💊 Did I take my pill?
+            {t.askMedChip}
           </button>
           <button
             type="button"
             className="setting-button voice-chip-btn"
             onClick={() => handleQuerySubmit("I got a suspicious text message")}
           >
-            🛡️ Check suspicious text
+            {t.askScamChip}
           </button>
           <button
             type="button"
             className="setting-button voice-chip-btn"
             onClick={() => handleQuerySubmit("Explain an official letter or bill")}
           >
-            📄 Explain a bill or letter
+            {t.askExplainChip}
           </button>
           <button
             type="button"
             className="setting-button voice-chip-btn"
             onClick={() => handleQuerySubmit("Call or message my family")}
           >
-            👨‍👩‍👧 Call my family
+            {t.askFamilyChip}
           </button>
         </div>
 
@@ -225,7 +244,7 @@ export default function TodayPage() {
           <div className="voice-assistant-result" role="region" aria-live="polite">
             <div className="voice-result-header">
               <h3>Saathi Assistant</h3>
-              <ReadAloud text={assistantResult.text} label="Hear Answer Aloud" />
+              <ReadAloud text={assistantResult.text} label={t.hearAnswer} />
             </div>
             <p className="voice-result-text">{assistantResult.text}</p>
             {assistantResult.actionHref && assistantResult.actionLabel && (
@@ -243,7 +262,7 @@ export default function TodayPage() {
         <div className="alert-card alert-warning" role="alert" aria-live="assertive">
           <div className="alert-icon" aria-hidden="true">⚠️</div>
           <div>
-            <h2>Missed Medicine Reminder</h2>
+            <h2>{t.missedReminder}</h2>
             {missedMeds.map((med) => (
               <div key={med.id} className="missed-item">
                 <p>
@@ -255,7 +274,7 @@ export default function TodayPage() {
                   className="primary-button take-button"
                   onClick={() => toggleMedicineTaken(med.id)}
                 >
-                  Mark as Taken Now
+                  {t.markTakenNow}
                 </button>
               </div>
             ))}
@@ -264,7 +283,7 @@ export default function TodayPage() {
       )}
 
       <section className="section-card next-med-section" aria-labelledby="next-med-heading">
-        <h2 id="next-med-heading">💊 Next Medicine</h2>
+        <h2 id="next-med-heading">{t.nextMedicine}</h2>
         {nextMed ? (
           <div className="next-med-content">
             <div className="med-info">
@@ -285,27 +304,27 @@ export default function TodayPage() {
               }`}
               onClick={() => toggleMedicineTaken(nextMed.id)}
             >
-              {isMedicineTakenToday(nextMed) ? "✓ Taken Today" : "Mark as Taken"}
+              {isMedicineTakenToday(nextMed) ? t.takenToday : t.markTaken}
             </button>
           </div>
         ) : (
           <div className="all-meds-taken">
-            <p>🎉 All your medicines for today are marked as taken! Well done.</p>
+            <p>{t.allMedsTaken}</p>
           </div>
         )}
         <div className="meds-link-container">
           <Link href="/medicines" className="setting-button">
-            View full medicine schedule →
+            {t.viewSchedule}
           </Link>
         </div>
       </section>
 
       <section className="section-card scam-tip-section" aria-labelledby="scam-tip-heading">
-        <h2 id="scam-tip-heading">🛡️ Daily Scam Safety Tip</h2>
+        <h2 id="scam-tip-heading">{t.dailyScamTip}</h2>
         <h3 className="scam-tip-title">{scamTip.title}</h3>
         <p className="scam-tip-body">{scamTip.tip}</p>
         <Link href="/scam-shield" className="setting-button">
-          Check a message with Scam Shield →
+          {t.checkWithScamShield}
         </Link>
       </section>
 

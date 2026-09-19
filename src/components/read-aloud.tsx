@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 type ReadAloudProps = {
   text: string;
@@ -21,6 +22,7 @@ function getServerFalse(): boolean {
 }
 
 export default function ReadAloud({ text, className = "", label = "Read aloud" }: ReadAloudProps) {
+  const { voiceLang } = useLanguage();
   const isSupported = useSyncExternalStore(subscribeNoop, checkSpeechSynthesisSupported, getServerFalse);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
@@ -40,6 +42,7 @@ export default function ReadAloud({ text, className = "", label = "Read aloud" }
     window.speechSynthesis.cancel();
     const cleanText = text.replace(/<[^>]*>?/gm, "").trim();
     const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = voiceLang || "en-US";
     utterance.rate = 0.9; // Slower rate for senior comprehension
 
     utterance.onend = () => setIsSpeaking(false);

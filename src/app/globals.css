@@ -30,6 +30,8 @@ a { font: inherit; }
 .nav-button, .setting-button { align-items: center; background: var(--surface); border: 2px solid var(--border); border-radius: 0.4rem; color: var(--foreground); display: inline-flex; justify-content: center; min-height: 48px; padding: 0.5rem 0.9rem; text-decoration: none; }
 .nav-button:hover, .setting-button:hover { background: var(--action); color: var(--background); }
 .high-contrast .nav-button:hover, .high-contrast .setting-button:hover { color: #000; }
+.language-selector-wrapper { display: inline-flex; }
+.language-select { cursor: pointer; padding-right: 1.25rem; font-weight: 600; min-height: 48px; }
 main { flex: 1; }
 footer { border-top: 2px solid var(--border); }
 .skip-link { background: var(--action); color: var(--background); left: 1rem; padding: 0.6rem 0.9rem; position: fixed; top: -5rem; z-index: 1; }
