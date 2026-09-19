@@ -373,3 +373,4 @@ export function getVoiceLangCode(lang: SupportedLang): string {
   const item = SUPPORTED_LANGUAGES.find((l) => l.code === lang);
   return item ? item.voiceLang : "en-US";
 }
+
