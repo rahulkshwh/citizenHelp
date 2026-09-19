@@ -11,7 +11,7 @@ if (!apiKey) {
     if (keyMatch) apiKey = keyMatch[1].trim();
     const modelMatch = envContent.match(/GEMINI_MODEL=([^\r\n]+)/);
     if (modelMatch) model = modelMatch[1].trim();
-  } catch (e) {}
+  } catch {}
 }
 
 if (!apiKey) {
@@ -44,3 +44,4 @@ async function verify() {
 }
 
 verify();
+
