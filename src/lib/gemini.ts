@@ -42,6 +42,18 @@ const systemPrompts = {
   family: "Draft a short, kind message in plain language for an older adult. Never ask for OTPs, PINs, passwords, or bank details.",
 } as const;
 
+let cachedClient: GoogleGenAI | null = null;
+let cachedClientKey: string | null = null;
+
+function getGeminiClient(apiKey: string): GoogleGenAI {
+  if (cachedClient && cachedClientKey === apiKey) {
+    return cachedClient;
+  }
+  cachedClient = new GoogleGenAI({ apiKey });
+  cachedClientKey = apiKey;
+  return cachedClient;
+}
+
 export async function generateGeminiResponse({ mode, text, lang }: AiRequest) {
   const apiKey = process.env.GEMINI_API_KEY || process.env.GEMNAI_API_KEY;
 
@@ -49,7 +61,7 @@ export async function generateGeminiResponse({ mode, text, lang }: AiRequest) {
     throw new Error("GEMINI_API_KEY is not configured.");
   }
 
-  const client = new GoogleGenAI({ apiKey });
+  const client = getGeminiClient(apiKey);
   const model = process.env.GEMINI_MODEL || "gemini-3.6-flash";
 
   const requestConfig = {
