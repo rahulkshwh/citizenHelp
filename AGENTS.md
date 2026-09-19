@@ -12,13 +12,14 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - [x] P1 scaffold + layout + toggles
 - [x] P2 /api/ai + schemas + rate limit + fallback
-- [ ] P3 Scam Shield
+- [x] P3 Scam Shield
 - [ ] P4 Explain It
 - [ ] P5 Today + Medicines + Family
 - [ ] P6 A11y + voice polish
 - [ ] P7 Tests
 - [ ] P8 Security review + README + final deploy
-Last completed: P2 /api/ai + schemas + rate limit + fallback. Next: P3 Scam Shield
+Last completed: P3 Scam Shield. Next: P4 Explain It
+
 
 
 
